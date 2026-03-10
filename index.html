@@ -1,0 +1,671 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SafeURL Thailand — URL Safety Checker</title>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --bg: #f4f1ec;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --muted: #7a7a8c;
+      --accent: #1b4fff;
+      --accent-light: #e8eeff;
+      --safe: #0e9e6e;
+      --safe-light: #e6f7f2;
+      --danger: #d93025;
+      --danger-light: #fdecea;
+      --warn: #f0860a;
+      --warn-light: #fff4e5;
+      --border: #e0ddd8;
+      --shadow: 0 2px 24px rgba(26,26,46,0.07);
+    }
+    body { font-family: 'DM Sans', sans-serif; background: var(--bg); color: var(--text); min-height: 100vh; display: flex; flex-direction: column; }
+
+    /* NAV */
+    nav { display: flex; align-items: center; justify-content: space-between; padding: 18px 40px; background: var(--surface); border-bottom: 1px solid var(--border); flex-wrap: wrap; gap: 10px; }
+    .nav-left { display: flex; align-items: center; gap: 12px; }
+    .nav-logo { display: flex; align-items: center; gap: 10px; font-family: 'DM Serif Display', serif; font-size: 1.3rem; color: var(--text); text-decoration: none; }
+    .nav-logo .shield-icon { width: 34px; height: 34px; background: var(--accent); border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+    .nav-logo .shield-icon svg { width: 20px; height: 20px; fill: white; }
+    .nav-right { display: flex; align-items: center; gap: 10px; }
+    .nav-badge { font-size: 0.72rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); background: var(--bg); padding: 5px 12px; border-radius: 20px; border: 1px solid var(--border); }
+    .lang-toggle { display: flex; background: var(--bg); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+    .lang-btn { padding: 6px 14px; font-size: 0.8rem; font-weight: 600; border: none; background: transparent; cursor: pointer; color: var(--muted); font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .lang-btn.active { background: var(--accent); color: white; }
+
+    /* HERO */
+    .hero { text-align: center; padding: 64px 24px 40px; animation: fadeUp 0.6s ease both; }
+    .hero-eyebrow { display: inline-flex; align-items: center; gap: 6px; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.1em; text-transform: uppercase; color: var(--accent); background: var(--accent-light); padding: 5px 14px; border-radius: 20px; margin-bottom: 18px; }
+    .hero h1 { font-family: 'DM Serif Display', serif; font-size: clamp(2rem, 5vw, 3.2rem); line-height: 1.15; margin-bottom: 14px; max-width: 620px; margin-left: auto; margin-right: auto; }
+    .hero h1 em { font-style: italic; color: var(--accent); }
+    .hero p { font-size: 1rem; color: var(--muted); max-width: 460px; margin: 0 auto 36px; line-height: 1.65; font-weight: 300; }
+
+    /* STATS BAR */
+    .stats-bar { display: flex; justify-content: center; gap: 32px; margin-bottom: 36px; flex-wrap: wrap; }
+    .stat { text-align: center; }
+    .stat-num { font-family: 'DM Serif Display', serif; font-size: 1.6rem; color: var(--accent); }
+    .stat-label { font-size: 0.74rem; color: var(--muted); font-weight: 500; letter-spacing: 0.05em; }
+
+    /* SEARCH */
+    .search-card { background: var(--surface); border: 1px solid var(--border); border-radius: 20px; padding: 26px; max-width: 700px; margin: 0 auto; box-shadow: var(--shadow); animation: fadeUp 0.6s 0.15s ease both; }
+    .search-label { font-size: 0.78rem; font-weight: 600; letter-spacing: 0.07em; text-transform: uppercase; color: var(--muted); display: block; margin-bottom: 10px; }
+    .search-row { display: flex; gap: 10px; }
+    #urlInput { flex: 1; border: 1.5px solid var(--border); border-radius: 12px; padding: 14px 18px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; color: var(--text); background: var(--bg); outline: none; transition: border-color 0.2s, box-shadow 0.2s; }
+    #urlInput::placeholder { color: #b0adb8; }
+    #urlInput:focus { border-color: var(--accent); box-shadow: 0 0 0 3px rgba(27,79,255,0.1); background: white; }
+    #checkBtn { background: var(--accent); color: white; border: none; border-radius: 12px; padding: 14px 26px; font-family: 'DM Sans', sans-serif; font-size: 0.95rem; font-weight: 600; cursor: pointer; transition: background 0.2s, transform 0.1s; white-space: nowrap; }
+    #checkBtn:hover { background: #1340dd; }
+    #checkBtn:active { transform: scale(0.98); }
+    #checkBtn:disabled { opacity: 0.7; cursor: not-allowed; }
+    .search-hint { font-size: 0.78rem; color: var(--muted); margin-top: 10px; }
+
+    /* RESULT */
+    #result { max-width: 700px; margin: 18px auto 0; display: none; animation: fadeUp 0.4s ease both; }
+    .result-box { border-radius: 16px; padding: 22px 24px; display: flex; align-items: flex-start; gap: 18px; }
+    .result-box.safe   { background: var(--safe-light); border: 1.5px solid #a0e8cf; }
+    .result-box.danger { background: var(--danger-light); border: 1.5px solid #f5bab7; }
+    .result-box.warn   { background: var(--warn-light); border: 1.5px solid #ffd08a; }
+    .result-icon { width: 46px; height: 46px; border-radius: 12px; flex-shrink: 0; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; }
+    .safe   .result-icon { background: #c8f4e4; }
+    .danger .result-icon { background: #fcd9d7; }
+    .warn   .result-icon { background: #ffe5b4; }
+    .result-status { font-size: 0.75rem; font-weight: 700; letter-spacing: 0.1em; text-transform: uppercase; margin-bottom: 4px; }
+    .safe   .result-status { color: var(--safe); }
+    .danger .result-status { color: var(--danger); }
+    .warn   .result-status { color: var(--warn); }
+    .result-title { font-family: 'DM Serif Display', serif; font-size: 1.2rem; color: var(--text); margin-bottom: 6px; }
+    .result-desc { font-size: 0.88rem; color: #444; line-height: 1.55; }
+    .result-url-display { margin-top: 10px; font-size: 0.78rem; font-family: 'Courier New', monospace; background: rgba(0,0,0,0.05); padding: 6px 12px; border-radius: 8px; color: var(--muted); word-break: break-all; }
+    .result-match-info { margin-top: 8px; font-size: 0.8rem; color: var(--muted); }
+    .result-match-info strong { color: var(--text); }
+    .report-btn { margin-top: 12px; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; font-weight: 600; padding: 7px 14px; border-radius: 8px; border: 1.5px solid #f5bab7; background: white; color: var(--danger); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: background 0.2s; }
+    .report-btn:hover { background: var(--danger-light); }
+
+    /* REPORT MODAL */
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.4); z-index: 100; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.open { display: flex; }
+    .modal { background: white; border-radius: 20px; padding: 32px; max-width: 440px; width: 100%; box-shadow: 0 20px 60px rgba(0,0,0,0.15); animation: fadeUp 0.3s ease both; }
+    .modal h3 { font-family: 'DM Serif Display', serif; font-size: 1.3rem; margin-bottom: 6px; }
+    .modal p { font-size: 0.85rem; color: var(--muted); margin-bottom: 20px; line-height: 1.5; }
+    .modal input, .modal select, .modal textarea { width: 100%; border: 1.5px solid var(--border); border-radius: 10px; padding: 11px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.88rem; color: var(--text); background: var(--bg); outline: none; margin-bottom: 12px; transition: border-color 0.2s; }
+    .modal input:focus, .modal select:focus, .modal textarea:focus { border-color: var(--accent); background: white; }
+    .modal textarea { resize: vertical; min-height: 80px; }
+    .modal-btns { display: flex; gap: 10px; }
+    .modal-submit { flex: 1; background: var(--danger); color: white; border: none; border-radius: 10px; padding: 12px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; transition: background 0.2s; }
+    .modal-submit:hover { background: #b52820; }
+    .modal-cancel { padding: 12px 18px; border: 1.5px solid var(--border); background: white; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-weight: 600; font-size: 0.9rem; cursor: pointer; color: var(--muted); }
+    .modal-success { text-align: center; padding: 12px 0 0; }
+    .modal-success .big-check { font-size: 2.5rem; margin-bottom: 8px; }
+    .modal-success p { color: var(--text); font-size: 0.9rem; }
+
+    /* TABS */
+    .tabs-section { max-width: 700px; margin: 48px auto 0; padding: 0 24px; animation: fadeUp 0.6s 0.3s ease both; }
+    .tabs-section h2 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 6px; }
+    .tabs-section > p { font-size: 0.84rem; color: var(--muted); margin-bottom: 16px; }
+    .tab-bar { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 18px; }
+    .tab-btn { padding: 7px 16px; font-size: 0.8rem; font-weight: 600; border-radius: 20px; border: 1.5px solid var(--border); background: white; color: var(--muted); cursor: pointer; font-family: 'DM Sans', sans-serif; transition: all 0.2s; }
+    .tab-btn.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .trusted-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(148px, 1fr)); gap: 10px; }
+    .trusted-chip { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 15px; cursor: default; transition: box-shadow 0.2s, border-color 0.2s; }
+    .trusted-chip:hover { box-shadow: 0 2px 14px rgba(27,79,255,0.1); border-color: #c0cbff; }
+    .trusted-chip .chip-cat { font-size: 0.65rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; color: var(--accent); margin-bottom: 2px; }
+    .trusted-chip .chip-name { font-weight: 600; font-size: 0.88rem; color: var(--text); }
+    .trusted-chip .chip-domain { font-size: 0.72rem; color: var(--muted); font-family: 'Courier New', monospace; }
+
+    /* TIPS */
+    .tips-section { max-width: 700px; margin: 40px auto 0; padding: 0 24px; animation: fadeUp 0.6s 0.45s ease both; }
+    .tips-section h2 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 16px; }
+    .tips-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+    @media (max-width: 540px) { .tips-grid { grid-template-columns: 1fr; } .search-row { flex-direction: column; } }
+    .tip-card { background: var(--surface); border: 1px solid var(--border); border-radius: 14px; padding: 18px; }
+    .tip-icon { font-size: 1.3rem; margin-bottom: 8px; }
+    .tip-title { font-weight: 600; font-size: 0.88rem; margin-bottom: 4px; }
+    .tip-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.5; }
+
+    /* HISTORY */
+    .history-section { max-width: 700px; margin: 40px auto 0; padding: 0 24px; animation: fadeUp 0.6s 0.5s ease both; }
+    .history-section h2 { font-family: 'DM Serif Display', serif; font-size: 1.25rem; margin-bottom: 16px; }
+    #historyList { display: flex; flex-direction: column; gap: 8px; }
+    .history-item { background: var(--surface); border: 1px solid var(--border); border-radius: 12px; padding: 12px 16px; display: flex; align-items: center; gap: 12px; font-size: 0.84rem; }
+    .history-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+    .history-dot.safe { background: var(--safe); }
+    .history-dot.danger { background: var(--danger); }
+    .history-dot.warn { background: var(--warn); }
+    .history-url { flex: 1; font-family: 'Courier New', monospace; color: var(--muted); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .history-label { font-size: 0.72rem; font-weight: 600; }
+    .history-empty { font-size: 0.85rem; color: var(--muted); font-style: italic; }
+    .clear-history { font-size: 0.78rem; color: var(--muted); background: none; border: 1px solid var(--border); border-radius: 8px; padding: 4px 10px; cursor: pointer; font-family: 'DM Sans', sans-serif; margin-left: auto; display: block; margin-bottom: 10px; }
+    .clear-history:hover { color: var(--danger); border-color: var(--danger); }
+
+    /* FOOTER */
+    footer { margin-top: 60px; text-align: center; padding: 24px; font-size: 0.78rem; color: var(--muted); border-top: 1px solid var(--border); }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp { from { opacity: 0; transform: translateY(16px); } to { opacity: 1; transform: translateY(0); } }
+    .spinner { display: inline-block; width: 15px; height: 15px; border: 2px solid rgba(255,255,255,0.4); border-top-color: white; border-radius: 50%; animation: spin 0.6s linear infinite; vertical-align: middle; margin-right: 6px; }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    /* SEARCH HIGHLIGHT */
+    .search-filter { width: 100%; margin-bottom: 14px; border: 1.5px solid var(--border); border-radius: 10px; padding: 9px 14px; font-family: 'DM Sans', sans-serif; font-size: 0.85rem; outline: none; background: var(--bg); transition: border-color 0.2s; }
+    .search-filter:focus { border-color: var(--accent); background: white; }
+  </style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <a class="nav-logo" href="#">
+      <div class="shield-icon">
+        <svg viewBox="0 0 24 24"><path d="M12 2L3 6v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V6L12 2zm-1 14l-3-3 1.41-1.41L11 13.17l4.59-4.58L17 10l-6 6z"/></svg>
+      </div>
+      SafeURL Thailand
+    </a>
+    <span class="nav-badge" id="navBadge">🇹🇭 ตรวจสอบ URL</span>
+  </div>
+  <div class="nav-right">
+    <div class="lang-toggle">
+      <button class="lang-btn active" onclick="setLang('en')">EN</button>
+      <button class="lang-btn" onclick="setLang('th')">ไทย</button>
+    </div>
+  </div>
+</nav>
+
+<div class="hero">
+  <div class="hero-eyebrow" id="eyebrow">🛡️ Police-Initiated Student Project</div>
+  <h1 id="heroTitle">Is that link <em>safe</em> to click?</h1>
+  <p id="heroSub">Paste any URL below to instantly check if it's an official site or a potential scam — built to protect people in Thailand.</p>
+
+  <div class="stats-bar">
+    <div class="stat"><div class="stat-num" id="siteCount">60+</div><div class="stat-label" id="statLabel1">Trusted Sites</div></div>
+    <div class="stat"><div class="stat-num">10+</div><div class="stat-label" id="statLabel2">Categories</div></div>
+    <div class="stat"><div class="stat-num">Free</div><div class="stat-label" id="statLabel3">Always Free</div></div>
+  </div>
+
+  <div class="search-card">
+    <span class="search-label" id="searchLabel">Paste a URL to check</span>
+    <div class="search-row">
+      <input type="text" id="urlInput" placeholder="e.g. https://kbank-login.net/verify" autocomplete="off" spellcheck="false"/>
+      <button id="checkBtn" onclick="checkURL()" data-en="Check" data-th="ตรวจสอบ">Check</button>
+    </div>
+    <div class="search-hint" id="searchHint">💡 Tip: Copy the link without clicking it, then paste it here</div>
+  </div>
+  <div id="result" style="padding: 0 0;"></div>
+</div>
+
+<!-- REPORT MODAL -->
+<div class="modal-overlay" id="reportModal">
+  <div class="modal">
+    <div id="modalContent">
+      <h3 id="modalTitle">🚩 Report a Suspicious URL</h3>
+      <p id="modalDesc">Help protect others by reporting this link. Our team will review it.</p>
+      <input type="text" id="reportUrl" placeholder="URL being reported" readonly/>
+      <select id="reportReason">
+        <option value="">Select a reason...</option>
+        <option value="phishing">Phishing / Fake login page</option>
+        <option value="impersonation">Impersonating a brand</option>
+        <option value="malware">Malware / Virus download</option>
+        <option value="scam">Financial scam</option>
+        <option value="other">Other</option>
+      </select>
+      <textarea id="reportDetails" placeholder="Any additional details? (optional)"></textarea>
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+        <button class="modal-submit" onclick="submitReport()">Submit Report</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- TRUSTED SITES -->
+<div class="tabs-section" id="trustedSection">
+  <h2 id="trustedTitle">Trusted Official Sites</h2>
+  <p id="trustedSub">We check your URL against these verified domains. Click a category to filter.</p>
+  <div class="tab-bar" id="tabBar"></div>
+  <input type="text" class="search-filter" id="siteSearch" placeholder="Search sites... (e.g. bank, grab, government)" oninput="filterSites()"/>
+  <div class="trusted-grid" id="trustedGrid"></div>
+</div>
+
+<!-- TIPS -->
+<div class="tips-section">
+  <h2 id="tipsTitle">How to Spot a Scam URL</h2>
+  <div class="tips-grid" id="tipsGrid"></div>
+</div>
+
+<!-- HISTORY -->
+<div class="history-section">
+  <h2 id="historyTitle">Recent Checks</h2>
+  <button class="clear-history" onclick="clearHistory()" id="clearBtn">Clear history</button>
+  <div id="historyList"><p class="history-empty" id="historyEmpty">No URLs checked yet.</p></div>
+</div>
+
+<footer id="footer">
+  SafeURL Thailand &mdash; A student project in partnership with the Royal Thai Police &nbsp;·&nbsp;
+  Built to protect the Thai community &nbsp;·&nbsp; For educational purposes
+</footer>
+
+<script>
+// ─── LANGUAGE ───────────────────────────────────────────────────
+let lang = 'en';
+const T = {
+  en: {
+    eyebrow: '🛡️ Police-Initiated Student Project',
+    heroTitle: 'Is that link <em>safe</em> to click?',
+    heroSub: 'Paste any URL below to instantly check if it\'s an official site or a potential scam — built to protect people in Thailand.',
+    statLabel1: 'Trusted Sites', statLabel2: 'Categories', statLabel3: 'Always Free',
+    searchLabel: 'Paste a URL to check',
+    checkBtn: 'Check',
+    searchHint: '💡 Tip: Copy the link without clicking it, then paste it here',
+    trustedTitle: 'Trusted Official Sites',
+    trustedSub: 'We check your URL against these verified domains. Click a category to filter.',
+    siteSearchPlaceholder: 'Search sites... (e.g. bank, grab, government)',
+    tipsTitle: 'How to Spot a Scam URL',
+    historyTitle: 'Recent Checks',
+    clearBtn: 'Clear history',
+    historyEmpty: 'No URLs checked yet.',
+    footer: 'SafeURL Thailand — A student project in partnership with the Royal Thai Police · Built to protect the Thai community · For educational purposes',
+    modalTitle: '🚩 Report a Suspicious URL',
+    modalDesc: 'Help protect others by reporting this link. Our team will review it.',
+    reportReasons: ['Select a reason...','Phishing / Fake login page','Impersonating a brand','Malware / Virus download','Financial scam','Other'],
+    reportPlaceholder: 'Any additional details? (optional)',
+    cancelBtn: 'Cancel', submitBtn: 'Submit Report',
+    reportSuccess: 'Thank you! Your report has been noted. You help keep Thailand safer.',
+    allTab: 'All',
+    safe_status: 'Safe — Verified Official',
+    safe_title: 'This appears to be a legitimate site',
+    safe_desc: 'This URL matches the official domain of <strong>{name}</strong> in our database. It is safe to visit.',
+    safe_match: '✔ Matched against:',
+    danger_status: 'Warning — Likely Scam',
+    danger_title: 'This URL looks like an impersonation!',
+    danger_desc: 'This domain appears to be <strong>pretending to be {name}</strong>, but it is <em>not</em> the official site. The real domain is <strong>{domain}</strong>. Do <strong>not</strong> click this link or enter any personal information.',
+    danger_match: '⚠ Suspicious match with:',
+    warn_status: 'Unknown — Not in Database',
+    warn_title: 'We couldn\'t verify this URL',
+    warn_desc: 'This domain is not in our list of trusted Thai sites. It may be a legitimate site we haven\'t added yet, or it could be a scam. <strong>Proceed with caution.</strong>',
+    report_btn: '🚩 Report this URL',
+    history_safe: 'Safe', history_danger: 'Scam', history_warn: 'Unknown',
+    loading: 'Checking...',
+  },
+  th: {
+    eyebrow: '🛡️ โครงการนักเรียนร่วมกับตำรวจ',
+    heroTitle: 'ลิงก์นี้<em>ปลอดภัย</em>ไหม?',
+    heroSub: 'วางลิงก์ที่น่าสงสัยด้านล่างเพื่อตรวจสอบว่าเป็นเว็บไซต์ทางการหรือเว็บหลอกลวง — สร้างขึ้นเพื่อปกป้องคนไทย',
+    statLabel1: 'เว็บไซต์ที่เชื่อถือได้', statLabel2: 'หมวดหมู่', statLabel3: 'ฟรีตลอดกาล',
+    searchLabel: 'วางลิงก์ที่ต้องการตรวจสอบ',
+    checkBtn: 'ตรวจสอบ',
+    searchHint: '💡 คัดลอกลิงก์โดยไม่ต้องคลิก แล้ววางที่นี่',
+    trustedTitle: 'เว็บไซต์ทางการที่เชื่อถือได้',
+    trustedSub: 'เราตรวจสอบ URL ของคุณกับโดเมนที่ผ่านการยืนยันเหล่านี้ คลิกหมวดหมู่เพื่อกรอง',
+    siteSearchPlaceholder: 'ค้นหาเว็บไซต์... (เช่น ธนาคาร, grab, รัฐบาล)',
+    tipsTitle: 'วิธีสังเกตลิงก์หลอกลวง',
+    historyTitle: 'ประวัติการตรวจสอบ',
+    clearBtn: 'ล้างประวัติ',
+    historyEmpty: 'ยังไม่มีการตรวจสอบ URL',
+    footer: 'SafeURL Thailand — โครงการนักเรียนร่วมกับตำรวจไทย · สร้างขึ้นเพื่อปกป้องชุมชนไทย · เพื่อการศึกษา',
+    modalTitle: '🚩 รายงาน URL ที่น่าสงสัย',
+    modalDesc: 'ช่วยปกป้องผู้อื่นโดยรายงานลิงก์นี้ ทีมงานจะตรวจสอบ',
+    reportReasons: ['เลือกเหตุผล...','ฟิชชิ่ง / หน้าล็อกอินปลอม','แอบอ้างเป็นแบรนด์','มัลแวร์ / ดาวน์โหลดไวรัส','หลอกลวงทางการเงิน','อื่นๆ'],
+    reportPlaceholder: 'รายละเอียดเพิ่มเติม? (ไม่บังคับ)',
+    cancelBtn: 'ยกเลิก', submitBtn: 'ส่งรายงาน',
+    reportSuccess: 'ขอบคุณ! รายงานของคุณได้รับการบันทึกแล้ว คุณช่วยให้ประเทศไทยปลอดภัยมากขึ้น',
+    allTab: 'ทั้งหมด',
+    safe_status: 'ปลอดภัย — ยืนยันแล้ว',
+    safe_title: 'เว็บไซต์นี้ดูเหมือนจะถูกต้องตามกฎหมาย',
+    safe_desc: 'URL นี้ตรงกับโดเมนทางการของ <strong>{name}</strong> ในฐานข้อมูลของเรา ปลอดภัยในการเข้าชม',
+    safe_match: '✔ ตรงกับ:',
+    danger_status: 'คำเตือน — น่าจะเป็นการหลอกลวง',
+    danger_title: 'URL นี้ดูเหมือนกำลังแอบอ้าง!',
+    danger_desc: 'โดเมนนี้ดูเหมือนจะ<strong>แอบอ้างเป็น {name}</strong> แต่ไม่ใช่เว็บไซต์ทางการ โดเมนจริงคือ <strong>{domain}</strong> <strong>อย่า</strong>คลิกลิงก์นี้หรือกรอกข้อมูลส่วนตัว',
+    danger_match: '⚠ ตรวจพบการแอบอ้าง:',
+    warn_status: 'ไม่ทราบ — ไม่อยู่ในฐานข้อมูล',
+    warn_title: 'เราไม่สามารถยืนยัน URL นี้ได้',
+    warn_desc: 'โดเมนนี้ไม่อยู่ในรายการเว็บไซต์ไทยที่เชื่อถือได้ของเรา อาจเป็นเว็บไซต์ที่ถูกต้องที่เรายังไม่ได้เพิ่ม หรืออาจเป็นการหลอกลวง <strong>ดำเนินการด้วยความระมัดระวัง</strong>',
+    report_btn: '🚩 รายงาน URL นี้',
+    history_safe: 'ปลอดภัย', history_danger: 'หลอกลวง', history_warn: 'ไม่ทราบ',
+    loading: 'กำลังตรวจสอบ...',
+  }
+};
+
+function setLang(l) {
+  lang = l;
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.textContent.trim() === (l==='en'?'EN':'ไทย')));
+  applyLang();
+}
+
+function applyLang() {
+  const t = T[lang];
+  document.getElementById('eyebrow').textContent = t.eyebrow;
+  document.getElementById('heroTitle').innerHTML = t.heroTitle;
+  document.getElementById('heroSub').textContent = t.heroSub;
+  document.getElementById('statLabel1').textContent = t.statLabel1;
+  document.getElementById('statLabel2').textContent = t.statLabel2;
+  document.getElementById('statLabel3').textContent = t.statLabel3;
+  document.getElementById('searchLabel').textContent = t.searchLabel;
+  document.getElementById('checkBtn').textContent = t.checkBtn;
+  document.getElementById('searchHint').textContent = t.searchHint;
+  document.getElementById('trustedTitle').textContent = t.trustedTitle;
+  document.getElementById('trustedSub').textContent = t.trustedSub;
+  document.getElementById('siteSearch').placeholder = t.siteSearchPlaceholder;
+  document.getElementById('tipsTitle').textContent = t.tipsTitle;
+  document.getElementById('historyTitle').textContent = t.historyTitle;
+  document.getElementById('clearBtn').textContent = t.clearBtn;
+  document.getElementById('footer').textContent = t.footer.replace('·','·');
+  document.getElementById('historyEmpty').textContent = t.historyEmpty;
+  renderTips();
+}
+
+// ─── DATABASE ────────────────────────────────────────────────────
+const trustedSites = [
+  // Banking
+  { name:"KBank (กสิกรไทย)", domain:"kasikornbank.com", aliases:["kbank.com","kasikorn.com"], cat:"Banking" },
+  { name:"SCB (ไทยพาณิชย์)", domain:"scb.co.th", aliases:["scbeasy.com","scbconnect.co.th"], cat:"Banking" },
+  { name:"Bangkok Bank", domain:"bangkokbank.com", aliases:["bbl.co.th"], cat:"Banking" },
+  { name:"Krungthai Bank", domain:"ktb.co.th", aliases:["krungthai.com","ktbnetbank.com"], cat:"Banking" },
+  { name:"TMBThanachart (ttb)", domain:"ttbbank.com", aliases:["tmbbank.com","thanachartbank.co.th"], cat:"Banking" },
+  { name:"GSB (ออมสิน)", domain:"gsb.or.th", aliases:[], cat:"Banking" },
+  { name:"Krungsri Bank", domain:"krungsri.com", aliases:["ayudhya.com"], cat:"Banking" },
+  { name:"UOB Thailand", domain:"uob.co.th", aliases:[], cat:"Banking" },
+  { name:"CIMB Thai", domain:"cimbthai.com", aliases:[], cat:"Banking" },
+  { name:"LH Bank", domain:"lhbank.co.th", aliases:[], cat:"Banking" },
+  { name:"BAAC (ธ.ก.ส.)", domain:"baac.or.th", aliases:[], cat:"Banking" },
+  { name:"GH Bank (ธอส.)", domain:"ghbank.co.th", aliases:[], cat:"Banking" },
+
+  // Payments
+  { name:"PromptPay", domain:"promptpay.io", aliases:["bot.or.th"], cat:"Payments" },
+  { name:"TrueMoney Wallet", domain:"truemoney.com", aliases:["truemoneyreward.com"], cat:"Payments" },
+  { name:"Rabbit LINE Pay", domain:"pay.line.me", aliases:[], cat:"Payments" },
+  { name:"ShopeePay", domain:"shopeepay.co.th", aliases:[], cat:"Payments" },
+  { name:"KBank K PLUS", domain:"kasikornbank.com", aliases:[], cat:"Payments" },
+
+  // Telecom
+  { name:"AIS", domain:"ais.th", aliases:["ais.com","one.th"], cat:"Telecom" },
+  { name:"DTAC", domain:"dtac.co.th", aliases:[], cat:"Telecom" },
+  { name:"TrueMove H", domain:"true.th", aliases:["truemoveh.com","truecorp.co.th"], cat:"Telecom" },
+  { name:"NT (โทรคมนาคม)", domain:"ntplc.co.th", aliases:["cattelecom.com"], cat:"Telecom" },
+  { name:"TOT", domain:"tot.co.th", aliases:[], cat:"Telecom" },
+
+  // E-Commerce
+  { name:"Shopee Thailand", domain:"shopee.co.th", aliases:["shopee.th"], cat:"E-Commerce" },
+  { name:"Lazada Thailand", domain:"lazada.co.th", aliases:[], cat:"E-Commerce" },
+  { name:"JD Central", domain:"jd.co.th", aliases:[], cat:"E-Commerce" },
+  { name:"Central Online", domain:"central.co.th", aliases:["tops.co.th"], cat:"E-Commerce" },
+  { name:"Makro", domain:"makro.co.th", aliases:[], cat:"E-Commerce" },
+  { name:"BigC", domain:"bigc.co.th", aliases:[], cat:"E-Commerce" },
+  { name:"Lotus's", domain:"lotuss.com", aliases:["tesco.co.th"], cat:"E-Commerce" },
+
+  // Ride & Delivery
+  { name:"Grab Thailand", domain:"grab.com", aliases:["grabfood.com","grabtaxi.com"], cat:"Ride & Delivery" },
+  { name:"Bolt", domain:"bolt.eu", aliases:[], cat:"Ride & Delivery" },
+  { name:"foodpanda", domain:"foodpanda.co.th", aliases:[], cat:"Ride & Delivery" },
+  { name:"LINE MAN", domain:"lineman.co.th", aliases:[], cat:"Ride & Delivery" },
+  { name:"Robinhood", domain:"robinhood.in.th", aliases:[], cat:"Ride & Delivery" },
+
+  // Social & Communication
+  { name:"LINE Thailand", domain:"line.me", aliases:["linecorp.com","line.biz"], cat:"Social" },
+  { name:"Facebook", domain:"facebook.com", aliases:["fb.com","messenger.com"], cat:"Social" },
+  { name:"Google", domain:"google.co.th", aliases:["google.com","gmail.com"], cat:"Social" },
+  { name:"YouTube", domain:"youtube.com", aliases:[], cat:"Social" },
+  { name:"TikTok", domain:"tiktok.com", aliases:[], cat:"Social" },
+  { name:"Twitter/X", domain:"x.com", aliases:["twitter.com"], cat:"Social" },
+  { name:"Instagram", domain:"instagram.com", aliases:[], cat:"Social" },
+
+  // Travel & Booking
+  { name:"Agoda", domain:"agoda.com", aliases:[], cat:"Travel" },
+  { name:"Booking.com", domain:"booking.com", aliases:[], cat:"Travel" },
+  { name:"Thai Airways", domain:"thaiairways.com", aliases:[], cat:"Travel" },
+  { name:"Bangkok Airways", domain:"bangkokair.com", aliases:[], cat:"Travel" },
+  { name:"AirAsia", domain:"airasia.com", aliases:[], cat:"Travel" },
+  { name:"Nok Air", domain:"nokair.com", aliases:[], cat:"Travel" },
+  { name:"Thai Lion Air", domain:"lionairthai.com", aliases:[], cat:"Travel" },
+  { name:"12go Asia", domain:"12go.asia", aliases:[], cat:"Travel" },
+
+  // Government
+  { name:"Thai Government", domain:"thaigov.go.th", aliases:[".go.th"], cat:"Government" },
+  { name:"Revenue Dept.", domain:"rd.go.th", aliases:[], cat:"Government" },
+  { name:"DBD (พาณิชย์)", domain:"dbd.go.th", aliases:[], cat:"Government" },
+  { name:"DSI", domain:"dsi.go.th", aliases:[], cat:"Government" },
+  { name:"Royal Thai Police", domain:"royalthaipolice.go.th", aliases:["police.go.th"], cat:"Government" },
+  { name:"ETDA", domain:"etda.or.th", aliases:[], cat:"Government" },
+  { name:"NECTEC", domain:"nectec.or.th", aliases:[], cat:"Government" },
+  { name:"Social Security", domain:"sso.go.th", aliases:[], cat:"Government" },
+  { name:"BOT (ธปท.)", domain:"bot.or.th", aliases:[], cat:"Government" },
+  { name:"ThaiD App", domain:"dopa.go.th", aliases:[], cat:"Government" },
+
+  // Utilities & Insurance
+  { name:"PEA (การไฟฟ้า)", domain:"pea.co.th", aliases:[], cat:"Utilities" },
+  { name:"MEA (กฟน.)", domain:"mea.or.th", aliases:[], cat:"Utilities" },
+  { name:"MWA (ประปา)", domain:"mwa.co.th", aliases:[], cat:"Utilities" },
+  { name:"PTT", domain:"pttplc.com", aliases:["pttep.com"], cat:"Utilities" },
+  { name:"AXA Thailand", domain:"axa.co.th", aliases:[], cat:"Utilities" },
+  { name:"Muang Thai Life", domain:"muangthai.co.th", aliases:[], cat:"Utilities" },
+];
+
+// ─── CATEGORY TABS ────────────────────────────────────────────────
+const cats = ['All', ...new Set(trustedSites.map(s => s.cat))];
+let activeTab = 'All';
+
+function renderTabs() {
+  const bar = document.getElementById('tabBar');
+  bar.innerHTML = '';
+  cats.forEach(cat => {
+    const btn = document.createElement('button');
+    btn.className = 'tab-btn' + (cat === activeTab ? ' active' : '');
+    btn.textContent = cat === 'All' ? (lang === 'th' ? T.th.allTab : 'All') : cat;
+    btn.onclick = () => { activeTab = cat; renderTabs(); filterSites(); };
+    bar.appendChild(btn);
+  });
+}
+
+function filterSites() {
+  const query = document.getElementById('siteSearch').value.toLowerCase();
+  const grid = document.getElementById('trustedGrid');
+  grid.innerHTML = '';
+  trustedSites.filter(s => {
+    const matchTab = activeTab === 'All' || s.cat === activeTab;
+    const matchSearch = !query || s.name.toLowerCase().includes(query) || s.domain.includes(query) || s.cat.toLowerCase().includes(query);
+    return matchTab && matchSearch;
+  }).forEach(site => {
+    const chip = document.createElement('div');
+    chip.className = 'trusted-chip';
+    chip.innerHTML = `<div class="chip-cat">${site.cat}</div><div class="chip-name">${site.name}</div><div class="chip-domain">${site.domain}</div>`;
+    grid.appendChild(chip);
+  });
+}
+
+// ─── TIPS ─────────────────────────────────────────────────────────
+const tips = {
+  en: [
+    { icon:'🔍', title:'Check the domain carefully', desc:'Scammers use lookalikes like "kbank-secure.com" instead of "kasikornbank.com".' },
+    { icon:'🔒', title:'Look for HTTPS', desc:'Legitimate sites use https://. A missing padlock is always a red flag.' },
+    { icon:'⚠️', title:'Beware of urgency', desc:'"Your account is suspended!" messages pressure you to click without thinking.' },
+    { icon:'📵', title:'Never share OTPs via a link', desc:'Official services will never ask for your OTP or PIN through a URL.' },
+    { icon:'🖥️', title:'Check for misspellings', desc:'Scammers may use "faceb00k.com" or "shoppe.co.th" — look closely.' },
+    { icon:'📲', title:'Verify through official apps', desc:'If unsure, open the official app directly instead of following a link.' },
+  ],
+  th: [
+    { icon:'🔍', title:'ตรวจสอบโดเมนอย่างละเอียด', desc:'นักต้มตุ๋นใช้ที่อยู่คล้ายกัน เช่น "kbank-secure.com" แทน "kasikornbank.com"' },
+    { icon:'🔒', title:'มองหา HTTPS', desc:'เว็บไซต์ที่ถูกต้องใช้ https:// ไม่มีแม่กุญแจถือเป็นสัญญาณอันตรายเสมอ' },
+    { icon:'⚠️', title:'ระวังข้อความเร่งด่วน', desc:'"บัญชีของคุณถูกระงับ!" ข้อความเหล่านี้กดดันให้คุณคลิกโดยไม่คิด' },
+    { icon:'📵', title:'ห้ามแชร์ OTP ผ่านลิงก์', desc:'บริการทางการจะไม่ขอ OTP หรือ PIN ผ่าน URL เด็ดขาด' },
+    { icon:'🖥️', title:'ตรวจสอบการสะกดผิด', desc:'อาจใช้ "faceb00k.com" หรือ "shoppe.co.th" — ดูอย่างระมัดระวัง' },
+    { icon:'📲', title:'ยืนยันผ่านแอปทางการ', desc:'หากไม่แน่ใจ เปิดแอปทางการโดยตรงแทนการตามลิงก์' },
+  ]
+};
+
+function renderTips() {
+  const grid = document.getElementById('tipsGrid');
+  grid.innerHTML = '';
+  tips[lang].forEach(t => {
+    const card = document.createElement('div');
+    card.className = 'tip-card';
+    card.innerHTML = `<div class="tip-icon">${t.icon}</div><div class="tip-title">${t.title}</div><div class="tip-desc">${t.desc}</div>`;
+    grid.appendChild(card);
+  });
+}
+
+// ─── URL CHECK ────────────────────────────────────────────────────
+function extractDomain(url) {
+  try {
+    let u = url.trim();
+    if (!u.startsWith('http')) u = 'https://' + u;
+    return new URL(u).hostname.replace(/^www\./,'').toLowerCase();
+  } catch {
+    return url.trim().toLowerCase().replace(/^www\./,'').split('/')[0];
+  }
+}
+
+let lastCheckedURL = '';
+
+function checkURL() {
+  const input = document.getElementById('urlInput').value.trim();
+  const resultDiv = document.getElementById('result');
+  const btn = document.getElementById('checkBtn');
+  const t = T[lang];
+  lastCheckedURL = input;
+
+  if (!input) {
+    resultDiv.style.display = 'block';
+    resultDiv.innerHTML = `<div class="result-box warn"><div class="result-icon">⚠️</div><div class="result-body"><div class="result-status">${t.warn_status}</div><div class="result-title">${lang==='en'?'Please enter a URL':'กรุณากรอก URL'}</div></div></div>`;
+    return;
+  }
+
+  btn.innerHTML = `<span class="spinner"></span>${t.loading}`;
+  btn.disabled = true;
+  resultDiv.style.display = 'none';
+
+  setTimeout(() => {
+    btn.textContent = t.checkBtn;
+    btn.disabled = false;
+    resultDiv.style.display = 'block';
+
+    const inputDomain = extractDomain(input);
+    let matchedSite = null, isTrusted = false, isSuspicious = false;
+
+    // .go.th → official Thai government
+    if (inputDomain.endsWith('.go.th')) {
+      isTrusted = true;
+      matchedSite = { name: lang==='th'?"หน่วยงานรัฐบาลไทย":"Thai Government Site", domain: ".go.th" };
+    }
+
+    if (!isTrusted) {
+      for (const site of trustedSites) {
+        for (const d of [site.domain, ...site.aliases]) {
+          if (inputDomain === d || inputDomain.endsWith('.'+d)) {
+            matchedSite = site; isTrusted = true; break;
+          }
+        }
+        if (isTrusted) break;
+      }
+    }
+
+    if (!isTrusted) {
+      for (const site of trustedSites) {
+        const kws = [site.name.toLowerCase().replace(/\s|\(.*\)/g,'').slice(0,10), site.domain.split('.')[0]];
+        for (const kw of kws) {
+          if (kw.length >= 4 && inputDomain.includes(kw)) {
+            matchedSite = site; isSuspicious = true; break;
+          }
+        }
+        if (isSuspicious) break;
+      }
+    }
+
+    let html = '';
+    let histClass = '';
+
+    if (isTrusted) {
+      histClass = 'safe';
+      html = `<div class="result-box safe">
+        <div class="result-icon">✅</div>
+        <div class="result-body">
+          <div class="result-status">${t.safe_status}</div>
+          <div class="result-title">${t.safe_title}</div>
+          <div class="result-desc">${t.safe_desc.replace('{name}', matchedSite.name)}</div>
+          <div class="result-url-display">${input}</div>
+          <div class="result-match-info">${t.safe_match} <strong>${matchedSite.domain}</strong></div>
+        </div>
+      </div>`;
+    } else if (isSuspicious) {
+      histClass = 'danger';
+      html = `<div class="result-box danger">
+        <div class="result-icon">🚨</div>
+        <div class="result-body">
+          <div class="result-status">${t.danger_status}</div>
+          <div class="result-title">${t.danger_title}</div>
+          <div class="result-desc">${t.danger_desc.replace('{name}',matchedSite.name).replace('{domain}',matchedSite.domain)}</div>
+          <div class="result-url-display">${input}</div>
+          <div class="result-match-info">${t.danger_match} <strong>${matchedSite.domain}</strong></div>
+          <button class="report-btn" onclick="openReport('${input.replace(/'/g,"\\'")}')">🚩 ${t.report_btn.replace('🚩','').trim()}</button>
+        </div>
+      </div>`;
+    } else {
+      histClass = 'warn';
+      html = `<div class="result-box warn">
+        <div class="result-icon">🔎</div>
+        <div class="result-body">
+          <div class="result-status">${t.warn_status}</div>
+          <div class="result-title">${t.warn_title}</div>
+          <div class="result-desc">${t.warn_desc}</div>
+          <div class="result-url-display">${input}</div>
+          <button class="report-btn" onclick="openReport('${input.replace(/'/g,"\\'")}')">🚩 ${t.report_btn.replace('🚩','').trim()}</button>
+        </div>
+      </div>`;
+    }
+
+    resultDiv.innerHTML = html;
+    addHistory(input, histClass);
+  }, 800);
+}
+
+// ─── HISTORY ──────────────────────────────────────────────────────
+let history = [];
+function addHistory(url, type) {
+  history.unshift({ url, type });
+  if (history.length > 8) history.pop();
+  renderHistory();
+}
+function renderHistory() {
+  const t = T[lang];
+  const list = document.getElementById('historyList');
+  if (!history.length) {
+    list.innerHTML = `<p class="history-empty" id="historyEmpty">${t.historyEmpty}</p>`;
+    return;
+  }
+  list.innerHTML = history.map(h => `
+    <div class="history-item">
+      <div class="history-dot ${h.type}"></div>
+      <div class="history-url">${h.url}</div>
+      <div class="history-label" style="color:var(--${h.type==='safe'?'safe':h.type==='danger'?'danger':'warn'})">${h.type==='safe'?t.history_safe:h.type==='danger'?t.history_danger:t.history_warn}</div>
+    </div>`).join('');
+}
+function clearHistory() { history = []; renderHistory(); }
+
+// ─── REPORT MODAL ─────────────────────────────────────────────────
+function openReport(url) {
+  document.getElementById('reportUrl').value = url || lastCheckedURL;
+  document.getElementById('reportModal').classList.add('open');
+  document.getElementById('modalTitle').textContent = T[lang].modalTitle;
+  document.getElementById('modalDesc').textContent = T[lang].modalDesc;
+  document.getElementById('reportDetails').placeholder = T[lang].reportPlaceholder;
+  const sel = document.getElementById('reportReason');
+  T[lang].reportReasons.forEach((r, i) => sel.options[i] && (sel.options[i].text = r));
+}
+function closeModal() { document.getElementById('reportModal').classList.remove('open'); }
+function submitReport() {
+  const t = T[lang];
+  document.getElementById('modalContent').innerHTML = `<div class="modal-success"><div class="big-check">✅</div><h3>${lang==='th'?'ขอบคุณ!':'Thank you!'}</h3><p>${t.reportSuccess}</p><br><button class="modal-cancel" onclick="closeModal()" style="margin:0 auto;display:block;">${lang==='th'?'ปิด':'Close'}</button></div>`;
+}
+document.getElementById('reportModal').addEventListener('click', function(e) { if (e.target === this) closeModal(); });
+
+// ─── INIT ─────────────────────────────────────────────────────────
+document.getElementById('urlInput').addEventListener('keydown', e => { if (e.key === 'Enter') checkURL(); });
+document.getElementById('siteCount').textContent = trustedSites.length + '+';
+renderTabs();
+filterSites();
+renderTips();
+</script>
+</body>
+</html>
