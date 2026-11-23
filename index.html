@@ -3,11 +3,11 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#102a2e">
+  <meta name="theme-color" content="#1e40af">
   <meta name="description" content="Check suspicious links, find official websites, and learn practical scam-safety habits with SafeURL Thailand.">
   <meta property="og:type" content="website">
   <meta property="og:title" content="SafeURL Thailand — Check before you trust">
-  <meta property="og:description" content="Check suspicious links and find official websites without opening the submitted URL.">
+  <meta property="og:description" content="Check suspicious links and find official websites with SafeURL Thailand.">
   <meta property="og:url" content="https://safeurlth.com/">
   <title>SafeURL Thailand — Check before you trust</title>
   <link rel="canonical" href="https://safeurlth.com/">
@@ -84,17 +84,12 @@
     <section class="hero" id="top">
       <div class="hero-inner">
         <div class="hero-copy">
-          <h1 data-i18n="heroTitle">Check before you tap.</h1>
-          <p class="hero-intro" data-i18n="heroIntro">Paste a URL. We check the domain without opening the link.</p>
+          <h1 data-i18n="heroTitle">Check before you click.</h1>
         </div>
 
         <div class="checker-shell" id="check">
           <div class="checker-heading">
-            <div>
-              <h2 data-i18n="checkerTitle">Check a link</h2>
-              <p data-i18n="checkerSub">Paste the full URL or domain.</p>
-            </div>
-            <span class="privacy-mark"><svg><use href="#icon-lock"/></svg><span data-i18n="privateLabel">Runs locally</span></span>
+            <h2 data-i18n="checkerTitle">Check a link</h2>
           </div>
 
           <form id="urlForm" novalidate>
@@ -117,14 +112,8 @@
 
           <div class="checker-footnote">
             <svg><use href="#icon-info"/></svg>
-            <p data-i18n="checkerNote">Guidance only. A match does not guarantee safety.</p>
+            <p data-i18n="checkerNote">Always proceed with caution.</p>
           </div>
-        </div>
-
-        <div class="signal-row" aria-label="How the check works">
-          <span><svg><use href="#icon-check"/></svg><span data-i18n="signalOneTitle">Domain match</span></span>
-          <span><svg><use href="#icon-search"/></svg><span data-i18n="signalTwoTitle">Impersonation clues</span></span>
-          <span><svg><use href="#icon-link"/></svg><span data-i18n="signalThreeTitle">URL structure</span></span>
         </div>
       </div>
     </section>
@@ -132,8 +121,7 @@
     <section class="toolkit section" id="tools">
       <div class="section-heading">
         <div>
-          <h2 data-i18n="toolsTitle">Safety tools.</h2>
-          <p data-i18n="toolsIntro">Three useful checks. One private workspace.</p>
+          <h2 data-i18n="toolsTitle">Safety tools</h2>
         </div>
       </div>
 
@@ -153,22 +141,33 @@
         <div class="tool-workspace">
           <section class="tool-panel active" id="sitesPanel" role="tabpanel" aria-labelledby="sitesTab">
             <div class="panel-heading">
-              <div><h3 data-i18n="sitesTitle">Find the official website</h3><p data-i18n="sitesIntro">Search by organization, service, or domain.</p></div>
+              <div><h3 data-i18n="sitesTitle">Official website directory</h3></div>
               <span class="directory-count"><strong id="siteCount">0</strong> <span data-i18n="directoryLabel">directory entries</span></span>
             </div>
-            <label class="search-field" for="siteSearch">
-              <svg><use href="#icon-search"/></svg>
-              <input id="siteSearch" type="search" autocomplete="off" maxlength="100" placeholder="Search banks, government services, shopping…" data-i18n-placeholder="siteSearchPlaceholder">
-            </label>
-            <div class="category-filters" id="categoryFilters" aria-label="Filter official sites"></div>
+            <div class="directory-controls">
+              <label class="search-field" for="siteSearch">
+                <svg><use href="#icon-search"/></svg>
+                <input id="siteSearch" type="search" autocomplete="off" maxlength="100" placeholder="Search name or domain" data-i18n-placeholder="siteSearchPlaceholder">
+              </label>
+              <label class="category-select" for="categorySelect">
+                <span class="sr-only">Category</span>
+                <select id="categorySelect" aria-label="Filter official sites by category"></select>
+                <svg><use href="#icon-chevron"/></svg>
+              </label>
+            </div>
             <div class="site-results" id="siteResults"></div>
-            <button class="text-button" id="showMoreSites" type="button" data-i18n="showMore">Show more sites</button>
+            <div class="directory-pager" id="directoryPager">
+              <span id="siteRange" aria-live="polite"></span>
+              <div>
+                <button class="pager-button" id="prevSites" type="button">Previous</button>
+                <button class="pager-button" id="nextSites" type="button">Next</button>
+              </div>
+            </div>
           </section>
 
           <section class="tool-panel" id="passwordPanel" role="tabpanel" aria-labelledby="passwordTab" hidden>
             <div class="panel-heading">
-              <div><h3 data-i18n="passwordTitle">Check password strength</h3><p data-i18n="passwordIntro">Your password never leaves this browser.</p></div>
-              <span class="local-only"><svg><use href="#icon-lock"/></svg><span data-i18n="localOnly">Local only</span></span>
+              <div><h3 data-i18n="passwordTitle">Check password strength</h3></div>
             </div>
             <label for="passwordInput" data-i18n="passwordLabel">Password to test</label>
             <div class="password-entry">
@@ -190,7 +189,7 @@
 
           <section class="tool-panel" id="historyPanel" role="tabpanel" aria-labelledby="historyTab" hidden>
             <div class="panel-heading">
-              <div><h3 data-i18n="historyTitle">Recent checks</h3><p data-i18n="historyIntro">Saved only in this browser.</p></div>
+              <div><h3 data-i18n="historyTitle">Recent checks</h3></div>
               <button class="danger-text-button" id="clearHistory" type="button"><svg><use href="#icon-trash"/></svg><span data-i18n="clearHistory">Clear history</span></button>
             </div>
             <div class="history-list" id="historyList"></div>
@@ -201,7 +200,7 @@
 
     <section class="learn section" id="learn">
       <div class="learn-heading">
-        <div><h2 data-i18n="learnTitle">Three rules. Remember them.</h2><p data-i18n="learnIntro">The safest habits are simple.</p></div>
+        <div><h2 data-i18n="learnTitle">Three rules to remember</h2></div>
       </div>
       <div class="lesson-list">
         <article><svg><use href="#icon-link"/></svg><div><h3 data-i18n="lessonOneTitle">Read the domain, not the message</h3><p data-i18n="lessonOneText">A familiar logo or sender name can be copied. The domain is harder to fake convincingly.</p></div></article>
@@ -210,26 +209,12 @@
       </div>
     </section>
 
-    <section class="about section" id="about">
-      <div class="about-panel">
-        <div>
-          <h2 data-i18n="aboutTitle">Useful guidance. Not a guarantee.</h2>
-          <p data-i18n="aboutText">SafeURL is a student-built educational tool. It checks domains and common URL warning signs.</p>
-        </div>
-        <dl>
-          <div><dt data-i18n="aboutPrivacyLabel">Privacy</dt><dd data-i18n="aboutPrivacyText">Checks stay in your browser</dd></div>
-          <div><dt data-i18n="aboutScopeLabel">Scope</dt><dd data-i18n="aboutScopeText">Domain identity and URL patterns</dd></div>
-          <div><dt data-i18n="aboutAccessLabel">Access</dt><dd data-i18n="aboutAccessText">Free, no sign-in required</dd></div>
-        </dl>
-      </div>
-    </section>
   </main>
 
   <footer class="site-footer">
     <div class="footer-inner">
       <a class="brand footer-brand" href="#top"><span class="brand-mark"><svg><use href="#icon-shield"/></svg></span><span class="brand-name">SafeURL <span>Thailand</span></span></a>
       <p data-i18n="footerText">Student-built in Thailand.</p>
-      <p class="footer-disclaimer" data-i18n="footerDisclaimer">Checks stay in your browser. Results are guidance only.</p>
     </div>
   </footer>
 

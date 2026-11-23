@@ -15,28 +15,63 @@ const trustedSites = [
   ["Email","Gmail","gmail.com"],["Email","Outlook","outlook.com"],["Email","Yahoo Mail","mail.yahoo.com"],
   ["Media","Netflix","netflix.com"],["Media","Disney+","disneyplus.com"],["Media","Spotify","spotify.com"],["Media","Apple TV","tv.apple.com"],["Media","Prime Video","primevideo.com"],
   ["Technology","Microsoft","microsoft.com"],["Technology","Apple","apple.com"],["Technology","Google Cloud","cloud.google.com"],["Technology","Amazon Web Services","aws.amazon.com"],["Technology","Samsung","samsung.com"],["Technology","Intel","intel.com"],
-  ["Payment","PayPal","paypal.com"],["Payment","Stripe","stripe.com"],["Payment","2C2P","2c2p.com"],["Payment","Opn Payments","opn.ooo"]
+  ["Payment","PayPal","paypal.com"],["Payment","Stripe","stripe.com"],["Payment","2C2P","2c2p.com"],["Payment","Opn Payments","opn.ooo"],
+
+  ["Government","Thailand Citizen Portal","thailand.go.th"],["Government","Digital Government Development Agency","dga.or.th"],["Government","Electronic Transactions Development Agency","etda.or.th"],["Government","National Cyber Security Agency","ncsa.or.th"],["Government","Consumer Protection Board","ocpb.go.th"],["Government","Department of Business Development","dbd.go.th"],["Government","Excise Department","excise.go.th"],["Government","Comptroller General's Department","cgd.go.th"],["Government","Department of Consular Affairs","consular.go.th"],["Government","Ministry of Foreign Affairs","mfa.go.th"],["Government","Ministry of Finance","mof.go.th"],["Government","Ministry of Digital Economy and Society","mdes.go.th"],["Government","Natural Resources Ministry","mnre.go.th"],["Government","Agriculture Ministry","moac.go.th"],["Government","Ministry of Energy","energy.go.th"],["Government","Ministry of Industry","industry.go.th"],["Government","Ministry of Justice","moj.go.th"],["Government","Office of the Attorney General","ago.go.th"],["Government","Courts of Justice","coj.go.th"],["Government","Election Commission of Thailand","ect.go.th"],["Government","Thai Food and Drug Administration","fda.moph.go.th"],["Government","Department of Disease Control","ddc.moph.go.th"],["Government","National Health Security Office","nhso.go.th"],["Government","Thai Meteorological Department","tmd.go.th"],["Government","Disaster Prevention and Mitigation","ddpm.go.th"],["Government","Department of Tourism","tourism.go.th"],["Government","Department of Airports","airports.go.th"],["Government","Civil Aviation Authority of Thailand","caat.or.th"],["Government","Thailand Board of Investment","boi.go.th"],["Government","Department of Intellectual Property","ipthailand.go.th"],["Government","Government Public Relations Department","prd.go.th"],["Government","National Innovation Agency","nia.or.th"],["Government","National Statistical Office","nso.go.th"],["Government","Personal Data Protection Committee","pdpc.or.th"],["Government","Office of Insurance Commission","oic.or.th"],
+
+  ["Banking","Government Savings Bank","gsb.or.th"],["Banking","BAAC","baac.or.th"],["Banking","Government Housing Bank","ghbank.co.th"],["Banking","Islamic Bank of Thailand","ibank.co.th"],["Banking","Kiatnakin Phatra","kkpfg.com"],["Banking","LH Bank","lhbank.co.th"],["Banking","ICBC Thai","icbcthai.com"],["Banking","Citibank","citi.com"],["Banking","DBS Bank","dbs.com"],["Banking","OCBC Bank","ocbc.com"],["Banking","Maybank","maybank.com"],["Banking","Bank of America","bankofamerica.com"],["Banking","Chase","chase.com"],["Banking","Wells Fargo","wellsfargo.com"],["Banking","Capital One","capitalone.com"],["Banking","Barclays","barclays.com"],["Banking","Deutsche Bank","db.com"],["Banking","BNP Paribas","bnpparibas.com"],["Banking","Santander","santander.com"],["Banking","ANZ","anz.com"],["Banking","Commonwealth Bank","commbank.com.au"],["Banking","MUFG","mufg.jp"],["Banking","Mizuho","mizuhogroup.com"],["Banking","SMBC Group","smbcgroup.com"],
+
+  ["Shopping","Walmart","walmart.com"],["Shopping","Target","target.com"],["Shopping","Best Buy","bestbuy.com"],["Shopping","Costco","costco.com"],["Shopping","The Home Depot","homedepot.com"],["Shopping","IKEA","ikea.com"],["Shopping","Zalora Thailand","zalora.co.th"],["Shopping","Uniqlo","uniqlo.com"],["Shopping","Nike","nike.com"],["Shopping","Adidas","adidas.com"],["Shopping","H&M","hm.com"],["Shopping","Zara","zara.com"],["Shopping","Sephora","sephora.com"],["Shopping","Temu","temu.com"],["Shopping","Rakuten","rakuten.com"],["Shopping","Mercado Libre","mercadolibre.com"],["Shopping","Coupang","coupang.com"],["Shopping","Tokopedia","tokopedia.com"],["Shopping","Flipkart","flipkart.com"],["Shopping","ASOS","asos.com"],["Shopping","Wayfair","wayfair.com"],["Shopping","Newegg","newegg.com"],["Shopping","Tops","tops.co.th"],["Shopping","Big C","bigc.co.th"],["Shopping","Lotus's","lotuss.com"],["Shopping","Makro","makro.pro"],["Shopping","Power Buy","powerbuy.co.th"],["Shopping","Thai Watsadu","thaiwatsadu.com"],["Shopping","Shopify","shopify.com"],["Shopping","WooCommerce","woocommerce.com"],
+
+  ["Transport","State Railway of Thailand","railway.co.th"],["Transport","Airports of Thailand","airportthai.co.th"],["Transport","Bangkok Airways","bangkokair.com"],["Transport","Thai Vietjet","thaivietjetair.com"],["Transport","Scoot","flyscoot.com"],["Transport","Singapore Airlines","singaporeair.com"],["Transport","Emirates","emirates.com"],["Transport","Qatar Airways","qatarairways.com"],["Transport","Cathay Pacific","cathaypacific.com"],["Transport","Japan Airlines","jal.co.jp"],["Transport","ANA","ana.co.jp"],["Transport","Lufthansa","lufthansa.com"],["Transport","KLM","klm.com"],["Transport","British Airways","britishairways.com"],["Transport","Delta Air Lines","delta.com"],["Transport","United Airlines","united.com"],["Transport","American Airlines","aa.com"],["Transport","Bolt","bolt.eu"],["Transport","inDrive","indrive.com"],["Transport","Lyft","lyft.com"],["Transport","FlixBus","flixbus.com"],
+
+  ["Messaging","Signal","signal.org"],["Messaging","Zoom","zoom.us"],["Messaging","KakaoTalk","kakao.com"],["Messaging","QQ","qq.com"],["Messaging","imo","imo.im"],["Messaging","Element","element.io"],["Messaging","Matrix","matrix.org"],["Messaging","Wire","wire.com"],["Messaging","Session","getsession.org"],
+
+  ["Social","Threads","threads.net"],["Social","Bluesky","bsky.app"],["Social","Tumblr","tumblr.com"],["Social","Twitch","twitch.tv"],["Social","Quora","quora.com"],["Social","Mastodon","joinmastodon.org"],["Social","VK","vk.com"],["Social","Weibo","weibo.com"],["Social","Douyin","douyin.com"],["Social","Medium","medium.com"],
+
+  ["Travel","Trip.com","trip.com"],["Travel","Traveloka","traveloka.com"],["Travel","Klook","klook.com"],["Travel","Hostelworld","hostelworld.com"],["Travel","Vrbo","vrbo.com"],["Travel","Marriott","marriott.com"],["Travel","Hilton","hilton.com"],["Travel","Hyatt","hyatt.com"],["Travel","IHG Hotels","ihg.com"],["Travel","Accor","all.accor.com"],["Travel","Minor Hotels","minorhotels.com"],["Travel","Centara Hotels","centarahotelsresorts.com"],["Travel","Anantara","anantara.com"],["Travel","Amari","amari.com"],["Travel","Dusit Hotels","dusit.com"],["Travel","Priceline","priceline.com"],["Travel","Trivago","trivago.com"],["Travel","Hopper","hopper.com"],["Travel","Kiwi.com","kiwi.com"],["Travel","Rome2Rio","rome2rio.com"],
+
+  ["Education","Chiang Mai University","cmu.ac.th"],["Education","Khon Kaen University","kku.ac.th"],["Education","Prince of Songkla University","psu.ac.th"],["Education","KMUTT","kmutt.ac.th"],["Education","KMITL","kmitl.ac.th"],["Education","KMUTNB","kmutnb.ac.th"],["Education","Silpakorn University","su.ac.th"],["Education","Srinakharinwirot University","swu.ac.th"],["Education","Burapha University","buu.ac.th"],["Education","Mae Fah Luang University","mfu.ac.th"],["Education","Rangsit University","rsu.ac.th"],["Education","Bangkok University","bu.ac.th"],["Education","Stanford University","stanford.edu"],["Education","MIT","mit.edu"],["Education","Harvard University","harvard.edu"],["Education","University of Oxford","ox.ac.uk"],["Education","University of Cambridge","cam.ac.uk"],["Education","Coursera","coursera.org"],["Education","edX","edx.org"],["Education","Khan Academy","khanacademy.org"],["Education","FutureLearn","futurelearn.com"],["Education","Udemy","udemy.com"],
+
+  ["Utilities","Provincial Waterworks Authority","pwa.co.th"],["Utilities","National Telecom","ntplc.co.th"],["Utilities","AIS","ais.th"],["Utilities","True Corporation","true.th"],["Utilities","dtac","dtac.co.th"],["Utilities","Electricity Generating Authority","egat.co.th"],["Utilities","PTT","pttplc.com"],["Utilities","Energy Regulatory Commission","erc.or.th"],
+
+  ["Finance","Anti-Money Laundering Office","amlo.go.th"],["Finance","Thai Credit Guarantee Corporation","tcg.or.th"],["Finance","National Credit Bureau","ncb.co.th"],["Finance","AIA Thailand","aia.co.th"],["Finance","Allianz Ayudhya","allianz.co.th"],["Finance","Muang Thai Life","muangthai.co.th"],["Finance","Bangkok Life Assurance","bangkoklife.com"],["Finance","SCB X","scbx.com"],["Finance","Visa","visa.com"],["Finance","Mastercard","mastercard.com"],["Finance","American Express","americanexpress.com"],["Finance","Wise","wise.com"],["Finance","Revolut","revolut.com"],["Finance","Robinhood","robinhood.com"],["Finance","Interactive Brokers","interactivebrokers.com"],["Finance","Fidelity","fidelity.com"],["Finance","Charles Schwab","schwab.com"],["Finance","Vanguard","vanguard.com"],
+
+  ["Search","Yahoo","yahoo.com"],["Search","Baidu","baidu.com"],["Search","Yandex","yandex.com"],["Search","Brave Search","brave.com"],
+  ["Email","Proton Mail","proton.me"],["Email","iCloud Mail","icloud.com"],["Email","Zoho Mail","zoho.com"],["Email","Fastmail","fastmail.com"],["Email","GMX","gmx.com"],
+
+  ["Media","Max","max.com"],["Media","Hulu","hulu.com"],["Media","Tidal","tidal.com"],["Media","Deezer","deezer.com"],["Media","SoundCloud","soundcloud.com"],["Media","Vimeo","vimeo.com"],["Media","Crunchyroll","crunchyroll.com"],["Media","Paramount+","paramountplus.com"],["Media","Peacock","peacocktv.com"],["Media","BBC","bbc.com"],["Media","CNN","cnn.com"],["Media","Reuters","reuters.com"],["Media","Bangkok Post","bangkokpost.com"],["Media","The Nation Thailand","nationthailand.com"],["Media","Thai PBS","thaipbs.or.th"],["Media","Workpoint","workpointtv.com"],["Media","Channel 3 Thailand","ch3plus.com"],["Media","Channel 7 Thailand","ch7.com"],["Media","PPTV HD 36","pptvhd36.com"],["Media","TrueID","trueid.net"],["Media","Viu","viu.com"],
+
+  ["Technology","Cloudflare","cloudflare.com"],["Technology","GitHub","github.com"],["Technology","GitLab","gitlab.com"],["Technology","Dropbox","dropbox.com"],["Technology","Box","box.com"],["Technology","Adobe","adobe.com"],["Technology","Oracle","oracle.com"],["Technology","IBM","ibm.com"],["Technology","Cisco","cisco.com"],["Technology","Dell","dell.com"],["Technology","HP","hp.com"],["Technology","Lenovo","lenovo.com"],["Technology","ASUS","asus.com"],["Technology","Acer","acer.com"],["Technology","Sony","sony.com"],["Technology","NVIDIA","nvidia.com"],["Technology","AMD","amd.com"],["Technology","Mozilla","mozilla.org"],["Technology","OpenAI","openai.com"],["Technology","Anthropic","anthropic.com"],["Technology","Canva","canva.com"],["Technology","Figma","figma.com"],["Technology","Notion","notion.so"],["Technology","Atlassian","atlassian.com"],["Technology","Salesforce","salesforce.com"],
+
+  ["Payment","Square","squareup.com"],["Payment","Adyen","adyen.com"],["Payment","Worldpay","worldpay.com"],["Payment","Western Union","westernunion.com"],["Payment","MoneyGram","moneygram.com"],["Payment","Remitly","remitly.com"],["Payment","TrueMoney","truemoney.com"],["Payment","Rabbit LINE Pay","rabbit.co.th"],["Payment","ShopeePay","shopeepay.co.th"],["Payment","Alipay","alipay.com"],
+
+  ["Delivery","Thailand Post","thailandpost.co.th"],["Delivery","DHL","dhl.com"],["Delivery","FedEx","fedex.com"],["Delivery","UPS","ups.com"],["Delivery","Kerry Express Thailand","th.kex-express.com"],["Delivery","Flash Express","flashexpress.com"],["Delivery","J&T Express Thailand","jtexpress.co.th"],
+
+  ["Security","ThaiCERT","thaicert.or.th"],["Security","VirusTotal","virustotal.com"],["Security","Have I Been Pwned","haveibeenpwned.com"],["Security","CISA","cisa.gov"],["Security","CERT Coordination Center","cert.org"],["Security","INTERPOL","interpol.int"],["Security","FTC ReportFraud","reportfraud.ftc.gov"],
+
+  ["Health","World Health Organization","who.int"],["Health","Thai Red Cross Society","redcross.or.th"],["Health","Siriraj Hospital","si.mahidol.ac.th"],["Health","Ramathibodi Hospital","rama.mahidol.ac.th"],["Health","Bumrungrad Hospital","bumrungrad.com"],["Health","Bangkok Hospital","bangkokhospital.com"],["Health","Samitivej Hospital","samitivejhospitals.com"]
 ].map(([category, name, domain]) => ({ category, name, domain }));
 
 const translations = {
   en: {
     navCheck:"Check a link",navTools:"Tools",navLearn:"Learn",navAbout:"About",projectNote:"A student-led public safety project",
-    heroTitle:"Check before you tap.",heroIntro:"Paste a URL. We check the domain without opening the link.",
-    trustOne:"The link is never opened",trustTwo:"No account required",trustThree:"Free to use",checkerTitle:"Check a link",checkerSub:"Paste the full URL or domain.",privateLabel:"Runs locally",urlLabel:"Website address",checkButton:"Check link",urlHint:"Example: kasikornbank.com",checkerNote:"Guidance only. A match does not guarantee safety.",
+    heroTitle:"Check before you click.",heroIntro:"Paste a URL.",
+    trustOne:"The link is never opened",trustTwo:"No account required",trustThree:"Free to use",checkerTitle:"Check a link",checkerSub:"Paste the full URL or domain.",urlLabel:"Website address",checkButton:"Check link",urlHint:"Example: kasikornbank.com",checkerNote:"Always proceed with caution.",
     methodTitle:"Every check looks at three signals",signalOneTitle:"Domain match",signalOneText:"Is it in our official-site directory?",signalTwoTitle:"Impersonation clues",signalTwoText:"Does it imitate a known brand?",signalThreeTitle:"URL structure",signalThreeText:"Are there unusual or misleading patterns?",
-    toolsTitle:"Safety tools.",toolsIntro:"Three useful checks. One private workspace.",sitesTabTitle:"Official sites",sitesTabText:"Search the directory",passwordTabTitle:"Password",passwordTabText:"Test strength privately",historyTabTitle:"History",historyTabText:"Stored on this device",sitesTitle:"Find the official website",sitesIntro:"Search by name or domain.",directoryLabel:"sites",siteSearchPlaceholder:"Search banks, government, shopping…",showMore:"Show more",passwordTitle:"Check password strength",passwordIntro:"Nothing leaves this browser.",localOnly:"Local only",passwordLabel:"Password",passwordPlaceholder:"Enter a password",passwordEmpty:"Enter a password",ruleLength:"12+ characters",ruleCase:"Upper and lowercase",ruleNumber:"At least one number",ruleSymbol:"At least one symbol",ruleCommon:"No common patterns",historyTitle:"Recent checks",historyIntro:"Saved on this device.",clearHistory:"Clear history",
-    learnTitle:"Three rules. Remember them.",learnIntro:"The safest habits are simple.",lessonOneTitle:"Read the domain",lessonOneText:"Names and logos can be copied. Check the actual domain.",lessonTwoTitle:"Pause when rushed",lessonTwoText:"Urgency is a common scam tactic. Stop and verify.",lessonThreeTitle:"Go there yourself",lessonThreeText:"Use the official app or type the known address.",lessonFourTitle:"HTTPS is not proof",lessonFourText:"A padlock protects the connection, but scam websites can also use HTTPS.",lessonFiveTitle:"Never share login codes",lessonFiveText:"Legitimate staff should not ask for passwords, one-time codes, or recovery phrases.",lessonSixTitle:"Ask through another channel",lessonSixText:"If a request seems unusual, call the person or organization using a number you already trust.",
-    aboutTitle:"Useful guidance. Not a guarantee.",aboutText:"SafeURL is a student-built educational tool. It checks domains and common URL warning signs.",aboutPrivacyLabel:"Privacy",aboutPrivacyText:"Checks stay in your browser",aboutScopeLabel:"Scope",aboutScopeText:"Domains and URL patterns",aboutAccessLabel:"Access",aboutAccessText:"Free, no sign-in",footerText:"Student-built in Thailand.",footerDisclaimer:"Checks stay in your browser. Results are guidance only.",
+    toolsTitle:"Safety tools",toolsIntro:"",sitesTabTitle:"Official sites",sitesTabText:"Search the directory",passwordTabTitle:"Password",passwordTabText:"Test strength privately",historyTabTitle:"History",historyTabText:"Stored on this device",sitesTitle:"Official website directory",sitesIntro:"",directoryLabel:"sites",siteSearchPlaceholder:"Search name or domain",showMore:"Show more",passwordTitle:"Check password strength",passwordIntro:"",localOnly:"Local only",passwordLabel:"Password",passwordPlaceholder:"Enter a password",passwordEmpty:"Enter a password",ruleLength:"12+ characters",ruleCase:"Upper and lowercase",ruleNumber:"At least one number",ruleSymbol:"At least one symbol",ruleCommon:"No common patterns",historyTitle:"Recent checks",historyIntro:"",clearHistory:"Clear history",
+    learnTitle:"Three rules to remember",learnIntro:"",lessonOneTitle:"Read the domain",lessonOneText:"Names and logos can be copied. Check the actual domain.",lessonTwoTitle:"Pause when rushed",lessonTwoText:"Urgency is a common scam tactic. Stop and verify.",lessonThreeTitle:"Go there yourself",lessonThreeText:"Use the official app or type the known address.",lessonFourTitle:"HTTPS is not proof",lessonFourText:"A padlock protects the connection, but scam websites can also use HTTPS.",lessonFiveTitle:"Never share login codes",lessonFiveText:"Legitimate staff should not ask for passwords, one-time codes, or recovery phrases.",lessonSixTitle:"Ask through another channel",lessonSixText:"If a request seems unusual, call the person or organization using a number you already trust.",
+    aboutTitle:"About SafeURL",aboutText:"SafeURL checks domains and common URL warning signs.",aboutPrivacyLabel:"Privacy",aboutPrivacyText:"Checks stay in your browser",aboutScopeLabel:"Scope",aboutScopeText:"Domains and URL patterns",aboutAccessLabel:"Access",aboutAccessText:"Free, no sign-in",footerText:"Student-built in Thailand.",
     reportTitle:"Report this link",reportIntro:"Saved only on this device.",reportedUrl:"Website address",reportReasonLabel:"Reason",reportReasonPlaceholder:"Choose a reason",reportDetailsLabel:"Details (optional)",cancelButton:"Cancel",submitReport:"Save report",
     all:"All",noSitesTitle:"No match",noSitesText:"Try another name or domain.",invalidUrl:"Enter a valid address, such as example.com.",unsupportedProtocol:"Only http and https links are supported.",checking:"Checking domain…",safeLabel:"Directory match",safeTitle:"Official domain found",safeText:"Matches our entry for {name}.",dangerLabel:"Possible impersonation",dangerTitle:"Use extra caution",dangerText:"Looks like {name}, but its official domain is {domain}.",cautionLabel:"Not in directory",cautionTitle:"No official match",cautionText:"Not listed. This does not automatically mean it is unsafe.",signalExact:"Matches a curated directory entry",signalHttps:"Uses HTTPS",signalHttp:"Does not use HTTPS",signalPatternClear:"No common URL warning sign",signalPatternRisk:"{count} URL warning sign(s) found",nextSafe:"Use the official directory address.",nextCaution:"Verify through the official app or a trusted source.",report:"Report",historyEmptyTitle:"No checks yet",historyEmptyText:"Your checks will appear here.",historyCleared:"History cleared.",reportSaved:"Saved on this device.",weak:"Weak",fair:"Fair",strong:"Strong",veryStrong:"Very strong",scoreText:"{score} of 5 checks",showPassword:"Show password",hidePassword:"Hide password"
   },
   th: {
     navCheck:"ตรวจสอบลิงก์",navTools:"เครื่องมือ",navLearn:"เรียนรู้",navAbout:"เกี่ยวกับ",projectNote:"โครงการความปลอดภัยสาธารณะที่นำโดยนักเรียน",
-    heroTitle:"เช็กก่อนแตะ",heroIntro:"วาง URL เราจะตรวจสอบโดเมนโดยไม่เปิดลิงก์",trustOne:"ระบบจะไม่เปิดลิงก์",trustTwo:"ไม่ต้องสมัครบัญชี",trustThree:"ใช้งานฟรี",checkerTitle:"ตรวจสอบลิงก์",checkerSub:"วาง URL เต็มหรือชื่อโดเมน",privateLabel:"ทำงานในเครื่อง",urlLabel:"ที่อยู่เว็บไซต์",checkButton:"ตรวจสอบ",urlHint:"ตัวอย่าง: kasikornbank.com",checkerNote:"เป็นเพียงคำแนะนำ การตรงกันไม่ได้รับรองความปลอดภัย",
+    heroTitle:"เช็กก่อนคลิก",heroIntro:"วาง URL",trustOne:"ระบบจะไม่เปิดลิงก์",trustTwo:"ไม่ต้องสมัครบัญชี",trustThree:"ใช้งานฟรี",checkerTitle:"ตรวจสอบลิงก์",checkerSub:"วาง URL เต็มหรือชื่อโดเมน",urlLabel:"ที่อยู่เว็บไซต์",checkButton:"ตรวจสอบ",urlHint:"ตัวอย่าง: kasikornbank.com",checkerNote:"โปรดดำเนินการด้วยความระมัดระวังเสมอ",
     methodTitle:"การตรวจสอบดูจาก 3 สัญญาณ",signalOneTitle:"การตรงกันของโดเมน",signalOneText:"อยู่ในรายชื่อเว็บไซต์ทางการหรือไม่",signalTwoTitle:"สัญญาณเลียนแบบ",signalTwoText:"กำลังเลียนแบบแบรนด์ที่รู้จักหรือไม่",signalThreeTitle:"โครงสร้าง URL",signalThreeText:"มีรูปแบบที่ผิดปกติหรือทำให้เข้าใจผิดหรือไม่",
-    toolsTitle:"เครื่องมือความปลอดภัย",toolsIntro:"สามเครื่องมือในพื้นที่ส่วนตัวเดียว",sitesTabTitle:"เว็บทางการ",sitesTabText:"ค้นหาในรายชื่อ",passwordTabTitle:"รหัสผ่าน",passwordTabText:"ทดสอบแบบส่วนตัว",historyTabTitle:"ประวัติ",historyTabText:"เก็บไว้ในอุปกรณ์นี้",sitesTitle:"ค้นหาเว็บไซต์ทางการ",sitesIntro:"ค้นหาจากชื่อหรือโดเมน",directoryLabel:"เว็บไซต์",siteSearchPlaceholder:"ค้นหาธนาคาร รัฐ ร้านค้า…",showMore:"แสดงเพิ่ม",passwordTitle:"ตรวจสอบรหัสผ่าน",passwordIntro:"ข้อมูลไม่ออกจากเบราว์เซอร์",localOnly:"เฉพาะอุปกรณ์",passwordLabel:"รหัสผ่าน",passwordPlaceholder:"ใส่รหัสผ่าน",passwordEmpty:"ใส่รหัสผ่าน",ruleLength:"12 ตัวอักษรขึ้นไป",ruleCase:"พิมพ์ใหญ่และพิมพ์เล็ก",ruleNumber:"มีตัวเลข",ruleSymbol:"มีสัญลักษณ์",ruleCommon:"ไม่ใช้รูปแบบทั่วไป",historyTitle:"การตรวจสอบล่าสุด",historyIntro:"บันทึกในอุปกรณ์นี้",clearHistory:"ล้างประวัติ",
-    learnTitle:"สามข้อที่ควรจำ",learnIntro:"นิสัยที่ปลอดภัยนั้นเรียบง่าย",lessonOneTitle:"อ่านชื่อโดเมน",lessonOneText:"ชื่อและโลโก้ปลอมได้ ตรวจสอบโดเมนจริง",lessonTwoTitle:"หยุดเมื่อถูกเร่ง",lessonTwoText:"ความเร่งด่วนเป็นกลลวงที่พบบ่อย หยุดและตรวจสอบ",lessonThreeTitle:"เข้าเว็บด้วยตัวเอง",lessonThreeText:"ใช้แอปทางการหรือพิมพ์ที่อยู่ที่รู้จัก",lessonFourTitle:"HTTPS ไม่ได้พิสูจน์ว่าปลอดภัย",lessonFourText:"แม่กุญแจปกป้องการเชื่อมต่อ แต่เว็บหลอกลวงก็ใช้ HTTPS ได้",lessonFiveTitle:"อย่าแชร์รหัสเข้าสู่ระบบ",lessonFiveText:"เจ้าหน้าที่จริงไม่ควรขอรหัสผ่าน รหัส OTP หรือ recovery phrase",lessonSixTitle:"ยืนยันผ่านอีกช่องทาง",lessonSixText:"หากคำขอดูผิดปกติ ให้โทรหาบุคคลหรือองค์กรด้วยหมายเลขที่คุณเชื่อถืออยู่แล้ว",
-    aboutTitle:"คำแนะนำ ไม่ใช่การรับรอง",aboutText:"SafeURL เป็นเครื่องมือการศึกษาที่นักเรียนสร้างขึ้น เพื่อตรวจสอบโดเมนและสัญญาณเตือนของ URL",aboutPrivacyLabel:"ความเป็นส่วนตัว",aboutPrivacyText:"ตรวจสอบในเบราว์เซอร์",aboutScopeLabel:"ขอบเขต",aboutScopeText:"โดเมนและรูปแบบ URL",aboutAccessLabel:"การเข้าถึง",aboutAccessText:"ฟรี ไม่ต้องเข้าสู่ระบบ",footerText:"สร้างโดยนักเรียนในประเทศไทย",footerDisclaimer:"การตรวจสอบอยู่ในเบราว์เซอร์ ผลลัพธ์เป็นคำแนะนำเท่านั้น",
+    toolsTitle:"เครื่องมือความปลอดภัย",toolsIntro:"",sitesTabTitle:"เว็บทางการ",sitesTabText:"ค้นหาในรายชื่อ",passwordTabTitle:"รหัสผ่าน",passwordTabText:"ทดสอบแบบส่วนตัว",historyTabTitle:"ประวัติ",historyTabText:"เก็บไว้ในอุปกรณ์นี้",sitesTitle:"รายชื่อเว็บไซต์ทางการ",sitesIntro:"",directoryLabel:"เว็บไซต์",siteSearchPlaceholder:"ค้นหาชื่อหรือโดเมน",showMore:"แสดงเพิ่ม",passwordTitle:"ตรวจสอบรหัสผ่าน",passwordIntro:"",localOnly:"เฉพาะอุปกรณ์",passwordLabel:"รหัสผ่าน",passwordPlaceholder:"ใส่รหัสผ่าน",passwordEmpty:"ใส่รหัสผ่าน",ruleLength:"12 ตัวอักษรขึ้นไป",ruleCase:"พิมพ์ใหญ่และพิมพ์เล็ก",ruleNumber:"มีตัวเลข",ruleSymbol:"มีสัญลักษณ์",ruleCommon:"ไม่ใช้รูปแบบทั่วไป",historyTitle:"การตรวจสอบล่าสุด",historyIntro:"",clearHistory:"ล้างประวัติ",
+    learnTitle:"สามข้อที่ควรจำ",learnIntro:"",lessonOneTitle:"อ่านชื่อโดเมน",lessonOneText:"ชื่อและโลโก้ปลอมได้ ตรวจสอบโดเมนจริง",lessonTwoTitle:"หยุดเมื่อถูกเร่ง",lessonTwoText:"ความเร่งด่วนเป็นกลลวงที่พบบ่อย หยุดและตรวจสอบ",lessonThreeTitle:"เข้าเว็บด้วยตัวเอง",lessonThreeText:"ใช้แอปทางการหรือพิมพ์ที่อยู่ที่รู้จัก",lessonFourTitle:"HTTPS ไม่ได้พิสูจน์ว่าปลอดภัย",lessonFourText:"แม่กุญแจปกป้องการเชื่อมต่อ แต่เว็บหลอกลวงก็ใช้ HTTPS ได้",lessonFiveTitle:"อย่าแชร์รหัสเข้าสู่ระบบ",lessonFiveText:"เจ้าหน้าที่จริงไม่ควรขอรหัสผ่าน รหัส OTP หรือ recovery phrase",lessonSixTitle:"ยืนยันผ่านอีกช่องทาง",lessonSixText:"หากคำขอดูผิดปกติ ให้โทรหาบุคคลหรือองค์กรด้วยหมายเลขที่คุณเชื่อถืออยู่แล้ว",
+    aboutTitle:"เกี่ยวกับ SafeURL",aboutText:"SafeURL ตรวจสอบโดเมนและสัญญาณเตือนของ URL",aboutPrivacyLabel:"ความเป็นส่วนตัว",aboutPrivacyText:"ตรวจสอบในเบราว์เซอร์",aboutScopeLabel:"ขอบเขต",aboutScopeText:"โดเมนและรูปแบบ URL",aboutAccessLabel:"การเข้าถึง",aboutAccessText:"ฟรี ไม่ต้องเข้าสู่ระบบ",footerText:"สร้างโดยนักเรียนในประเทศไทย",
     reportTitle:"รายงานลิงก์นี้",reportIntro:"บันทึกในอุปกรณ์นี้เท่านั้น",reportedUrl:"ที่อยู่เว็บไซต์",reportReasonLabel:"เหตุผล",reportReasonPlaceholder:"เลือกเหตุผล",reportDetailsLabel:"รายละเอียด (ไม่บังคับ)",cancelButton:"ยกเลิก",submitReport:"บันทึกรายงาน",
     all:"ทั้งหมด",noSitesTitle:"ไม่พบ",noSitesText:"ลองชื่อหรือโดเมนอื่น",invalidUrl:"กรอกที่อยู่ที่ถูกต้อง เช่น example.com",unsupportedProtocol:"รองรับเฉพาะลิงก์ http และ https",checking:"กำลังตรวจสอบ…",safeLabel:"ตรงกับรายชื่อ",safeTitle:"พบโดเมนทางการ",safeText:"ตรงกับรายการของ {name}",dangerLabel:"อาจเลียนแบบ",dangerTitle:"ควรระวังเป็นพิเศษ",dangerText:"คล้าย {name} แต่โดเมนทางการคือ {domain}",cautionLabel:"ไม่อยู่ในรายชื่อ",cautionTitle:"ไม่พบรายการทางการ",cautionText:"ไม่อยู่ในรายชื่อ แต่ไม่ได้แปลว่าไม่ปลอดภัย",signalExact:"ตรงกับรายการที่รวบรวมไว้",signalHttps:"ใช้ HTTPS",signalHttp:"ไม่ใช้ HTTPS",signalPatternClear:"ไม่พบสัญญาณเตือน URL",signalPatternRisk:"พบสัญญาณเตือน {count} รายการ",nextSafe:"ใช้ที่อยู่จากรายชื่อทางการ",nextCaution:"ตรวจสอบผ่านแอปทางการหรือแหล่งที่เชื่อถือได้",report:"รายงาน",historyEmptyTitle:"ยังไม่มีรายการ",historyEmptyText:"การตรวจสอบจะปรากฏที่นี่",historyCleared:"ล้างประวัติแล้ว",reportSaved:"บันทึกในอุปกรณ์แล้ว",weak:"อ่อน",fair:"พอใช้",strong:"แข็งแรง",veryStrong:"แข็งแรงมาก",scoreText:"ผ่าน {score} จาก 5 ข้อ",showPassword:"แสดงรหัสผ่าน",hidePassword:"ซ่อนรหัสผ่าน"
   },
@@ -55,7 +90,8 @@ const state = {
   language: readTextStorage("safeurl-language", "en"),
   category: "All",
   query: "",
-  visibleSites: 8,
+  page: 0,
+  pageSize: 10,
   history: (() => { const value = readStorage("safeurl-history", []); return Array.isArray(value) ? value : []; })(),
   lastCheckedUrl: ""
 };
@@ -72,9 +108,12 @@ const els = {
   result: document.getElementById("resultPanel"),
   siteCount: document.getElementById("siteCount"),
   siteSearch: document.getElementById("siteSearch"),
-  categoryFilters: document.getElementById("categoryFilters"),
+  categorySelect: document.getElementById("categorySelect"),
   siteResults: document.getElementById("siteResults"),
-  showMoreSites: document.getElementById("showMoreSites"),
+  directoryPager: document.getElementById("directoryPager"),
+  siteRange: document.getElementById("siteRange"),
+  prevSites: document.getElementById("prevSites"),
+  nextSites: document.getElementById("nextSites"),
   passwordInput: document.getElementById("passwordInput"),
   togglePassword: document.getElementById("togglePassword"),
   strengthBar: document.getElementById("strengthBar"),
@@ -238,13 +277,8 @@ function saveHistory(analysis) {
 
 function renderCategories() {
   const categories = ["All", ...new Set(trustedSites.map(site => site.category))];
-  els.categoryFilters.innerHTML = categories.map(category => `<button class="filter-button${state.category === category ? " active" : ""}" type="button" data-category="${escapeHtml(category)}">${escapeHtml(category === "All" ? tr("all") : category)}</button>`).join("");
-  els.categoryFilters.querySelectorAll("button").forEach(button => button.addEventListener("click", () => {
-    state.category = button.dataset.category;
-    state.visibleSites = 8;
-    renderCategories();
-    renderSites();
-  }));
+  els.categorySelect.innerHTML = categories.map(category => `<option value="${escapeHtml(category)}">${escapeHtml(category === "All" ? tr("all") : category)}</option>`).join("");
+  els.categorySelect.value = state.category;
 }
 
 function filteredSites() {
@@ -261,16 +295,23 @@ function renderSites() {
   els.siteCount.textContent = trustedSites.length;
   if (!results.length) {
     els.siteResults.innerHTML = `<div class="empty-state">${iconUse("icon-search")}<h4>${escapeHtml(tr("noSitesTitle"))}</h4><p>${escapeHtml(tr("noSitesText"))}</p></div>`;
-    els.showMoreSites.hidden = true;
+    els.directoryPager.hidden = true;
     return;
   }
-  els.siteResults.innerHTML = results.slice(0, state.visibleSites).map(site => `
+  const pageCount = Math.ceil(results.length / state.pageSize);
+  state.page = Math.min(state.page, pageCount - 1);
+  const start = state.page * state.pageSize;
+  const end = Math.min(start + state.pageSize, results.length);
+  els.siteResults.innerHTML = results.slice(start, end).map(site => `
     <div class="site-row">
       <span class="site-name">${escapeHtml(site.name)}</span>
       <span class="site-domain">${escapeHtml(site.domain)}</span>
       <span class="site-category">${escapeHtml(site.category)}</span>
     </div>`).join("");
-  els.showMoreSites.hidden = results.length <= state.visibleSites;
+  els.directoryPager.hidden = false;
+  els.siteRange.textContent = `${start + 1}–${end} of ${results.length}`;
+  els.prevSites.disabled = state.page === 0;
+  els.nextSites.disabled = state.page >= pageCount - 1;
 }
 
 function renderHistory() {
@@ -299,7 +340,7 @@ function updatePassword() {
   const score = Object.values(rules).filter(Boolean).length;
   document.querySelectorAll("#passwordRules [data-rule]").forEach(item => item.classList.toggle("passed", Boolean(rules[item.dataset.rule])));
   const labels = [tr("passwordEmpty"), tr("weak"), tr("weak"), tr("fair"), tr("strong"), tr("veryStrong")];
-  const colors = ["var(--line-dark)", "var(--danger)", "var(--danger)", "var(--warning)", "var(--teal)", "var(--success)"];
+  const colors = ["var(--line-strong)", "var(--danger)", "var(--danger)", "var(--warning)", "var(--brand-teal)", "var(--success)"];
   els.strengthBar.style.transform = `scaleX(${value ? score / 5 : 0})`;
   els.strengthBar.style.background = colors[score];
   els.strengthLabel.textContent = value ? labels[score] : tr("passwordEmpty");
@@ -393,8 +434,10 @@ document.querySelectorAll(".tool-tab").forEach(button => {
     tabs[next].focus();
   });
 });
-els.siteSearch.addEventListener("input", event => { state.query = event.target.value; state.visibleSites = 8; renderSites(); });
-els.showMoreSites.addEventListener("click", () => { state.visibleSites += 8; renderSites(); });
+els.siteSearch.addEventListener("input", event => { state.query = event.target.value; state.page = 0; renderSites(); });
+els.categorySelect.addEventListener("change", event => { state.category = event.target.value; state.page = 0; renderSites(); });
+els.prevSites.addEventListener("click", () => { if (state.page > 0) { state.page -= 1; renderSites(); } });
+els.nextSites.addEventListener("click", () => { state.page += 1; renderSites(); });
 els.passwordInput.addEventListener("input", updatePassword);
 els.togglePassword.addEventListener("click", () => {
   const showing = els.passwordInput.type === "text";
@@ -420,7 +463,7 @@ if ("IntersectionObserver" in window) {
     if (!visible) return;
     document.querySelectorAll(".primary-nav a").forEach(link => link.classList.toggle("active", link.getAttribute("href") === `#${visible.target.id}` || (visible.target.id === "top" && link.getAttribute("href") === "#check")));
   }, { rootMargin: "-30% 0px -60%", threshold: [0, .25, .6] });
-  document.querySelectorAll("#top, #tools, #learn, #about").forEach(section => sectionObserver.observe(section));
+  document.querySelectorAll("#top, #tools, #learn").forEach(section => sectionObserver.observe(section));
 }
 
 applyLanguage(state.language);
