@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://safeurlth.com/sitemap.xml
